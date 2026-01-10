@@ -4,7 +4,7 @@ import db.ServiceDAO;
 import model.Service;
 import javax.swing.*;
 import java.awt.*;
-//demo comment
+
 public class AddServiceFrame extends JFrame {
 
     private JTextField txtType, txtCost;
