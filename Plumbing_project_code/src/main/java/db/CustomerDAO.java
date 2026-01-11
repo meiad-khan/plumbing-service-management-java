@@ -18,16 +18,16 @@ public class CustomerDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Set values into SQL query
+           
             stmt.setString(1, customer.getName());
             stmt.setString(2, customer.getPhone());
             stmt.setString(3, customer.getAddress());
             stmt.setString(4, customer.getPassword());
 
-            // Execute insert
+           
             int rows = stmt.executeUpdate();
 
-            return rows > 0; // return true if insert is successful
+            return rows > 0; 
 
         } catch (SQLException e) {
             System.out.println("Registration failed: " + e.getMessage());
@@ -35,13 +35,7 @@ public class CustomerDAO {
         }
     }
 
-    /**
-     * loginCustomer()
-     * ----------------
-     * Checks if phone + password match a record.
-     * Returns the Customer object if login is successful.
-     * Returns null if login fails.
-     */
+    
     public Customer loginCustomer(String phone, String password) {
 
         String sql = "SELECT * FROM customers WHERE phone = ? AND password = ?";
@@ -54,7 +48,7 @@ public class CustomerDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            // If a matching row exists, create a Customer object
+           
             if (rs.next()) {
                 Customer customer = new Customer();
                 customer.setCustomerId(rs.getInt("customer_id"));
@@ -63,22 +57,17 @@ public class CustomerDAO {
                 customer.setAddress(rs.getString("address"));
                 customer.setPassword(rs.getString("password"));
 
-                return customer; // successful login
+                return customer; 
             }
 
         } catch (SQLException e) {
             System.out.println("Login failed: " + e.getMessage());
         }
 
-        return null; // login failed
+        return null; 
     }
 
-    /**
-     * getCustomerByPhone()
-     * ---------------------
-     * Finds a customer using their phone number.
-     * Useful when checking duplicate phone numbers.
-     */
+    
     public Customer getCustomerByPhone(String phone) {
 
         String sql = "SELECT * FROM customers WHERE phone = ?";
@@ -107,11 +96,9 @@ public class CustomerDAO {
 
         return null;
     }
-    /**
- * getAllCustomers()
- * -----------------
- * Returns list of all customers for admin view.
- */
+    
+
+    
 public ArrayList<model.Customer> getAllCustomers() {
     ArrayList<model.Customer> list = new ArrayList<>();
     String sql = "SELECT * FROM customers ORDER BY customer_id DESC";

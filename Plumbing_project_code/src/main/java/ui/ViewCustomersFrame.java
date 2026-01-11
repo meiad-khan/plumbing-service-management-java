@@ -8,9 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * ViewCustomersFrame - show all registered customers
- */
+
 public class ViewCustomersFrame extends JFrame {
 
     private JTable tbl;

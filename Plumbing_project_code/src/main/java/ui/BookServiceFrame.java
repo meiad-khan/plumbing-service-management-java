@@ -133,7 +133,7 @@ public class BookServiceFrame extends JFrame {
             return;
         }
 
-        // Validate date format by trying to convert to java.sql.Date
+        
         Date scheduleDate;
         try {
             scheduleDate = Date.valueOf(dateText); 
@@ -142,7 +142,9 @@ public class BookServiceFrame extends JFrame {
             return;
         }
 
-        //asdf
+        
+
+        
         Service chosen = serviceList.get(selectedIndex);
         Job job = new Job(customerId, chosen.getServiceId(), scheduleDate, "Pending");
 

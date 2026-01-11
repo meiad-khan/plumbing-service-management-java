@@ -4,20 +4,11 @@ import model.Job;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * JobDAO
- * -------
- * Handles all database operations related to jobs.
- * (booking, assigning plumber, updating status, fetching jobs)
- */
+
 public class JobDAO {
 
-    /**
-     * createJob()
-     * ------------
-     * Called when a customer books a service.
-     * Plumber is NOT assigned at this stage.
-     */
+    
+  
     public boolean createJob(Job job) {
 
         String sql = "INSERT INTO jobs(customer_id, service_id, schedule_date, status) VALUES (?, ?, ?, ?)";
@@ -38,11 +29,8 @@ public class JobDAO {
         }
     }
 
-    /**
-     * assignPlumber()
-     * ----------------
-     * Admin assigns a plumber to a job.
-     */
+    
+    
     public boolean assignPlumber(int jobId, int plumberId) {
 
         String sql = "UPDATE jobs SET plumber_id = ?, status = 'In Progress' WHERE job_id = ?";
@@ -61,12 +49,8 @@ public class JobDAO {
         }
     }
 
-    /**
-     * updateStatus()
-     * ---------------
-     * Plumber updates the job status.
-     * status can be: Pending / In Progress / Completed
-     */
+    
+    
     public boolean updateStatus(int jobId, String status) {
 
         String sql = "UPDATE jobs SET status = ? WHERE job_id = ?";
@@ -85,11 +69,7 @@ public class JobDAO {
         }
     }
 
-    /**
-     * updateFinalCost()
-     * -------------------
-     * Saves the total calculated cost in the job record.
-     */
+    
     public boolean updateFinalCost(int jobId, double cost) {
 
         String sql = "UPDATE jobs SET final_cost = ? WHERE job_id = ?";
@@ -108,11 +88,8 @@ public class JobDAO {
         }
     }
 
-    /**
-     * getJobsByCustomer()
-     * --------------------
-     * Shows all jobs booked by a specific customer.
-     */
+    
+    
     public ArrayList<Job> getJobsByCustomer(int customerId) {
 
         ArrayList<Job> list = new ArrayList<>();
@@ -146,11 +123,8 @@ public class JobDAO {
         return list;
     }
 
-    /**
-     * getJobsByPlumber()
-     * -------------------
-     * Plumber sees his assigned jobs.
-     */
+    
+    
     public ArrayList<Job> getJobsByPlumber(int plumberId) {
 
         ArrayList<Job> list = new ArrayList<>();
@@ -183,11 +157,9 @@ public class JobDAO {
 
         return list;
     }
-    /**
- * getPendingJobs()
- * ----------------
- * Returns list of jobs with status = 'Pending'
- */
+   
+
+
 public ArrayList<Job> getPendingJobs() {
     ArrayList<Job> list = new ArrayList<>();
     String sql = "SELECT * FROM jobs WHERE status = 'Pending' ORDER BY job_id DESC";

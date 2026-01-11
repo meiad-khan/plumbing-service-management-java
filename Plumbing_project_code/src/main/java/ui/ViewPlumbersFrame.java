@@ -8,9 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * ViewPlumbersFrame - show all plumbers in a table
- */
+
+
 public class ViewPlumbersFrame extends JFrame {
 
     private JTable tbl;
@@ -45,11 +44,9 @@ public class ViewPlumbersFrame extends JFrame {
     private void loadPlumbers() {
         PlumberDAO dao = new PlumberDAO();
 
-        // We only had getAvailablePlumbers earlier; to show all plumbers we'll fetch by ID loop:
+       
         ArrayList<Plumber> list = new ArrayList<>();
 
-        // Try to fetch available ones and also try by id range if needed — simpler: use SQL in DAO.
-        // So we expect PlumberDAO to have getAllPlumbers(); if not, fallback to getAvailablePlumbers()
         try {
             list = dao.getAllPlumbers(); // preferred
         } catch (Throwable t) {

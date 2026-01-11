@@ -1,11 +1,7 @@
 package model;
 
-/**
- * Customer Model Class
- * ---------------------
- * This class represents a Customer object in our system.
- * It matches the "customers" table in the database.
- */
+
+
 public class Customer {
 
     private int customerId;   // Primary key from DB
@@ -14,19 +10,11 @@ public class Customer {
     private String address;
     private String password;
 
-    /**
-     * Default constructor
-     * -------------------
-     * Needed so Java can create an empty Customer object.
-     * Also required for some frameworks & reading from DB.
-     */
+    
     public Customer() {}
 
-    /**
-     * Parameterized constructor
-     * -------------------------
-     * Useful when creating a new customer (during registration).
-     */
+    
+    
     public Customer(String name, String phone, String address, String password) {
         this.name = name;
         this.phone = phone;
