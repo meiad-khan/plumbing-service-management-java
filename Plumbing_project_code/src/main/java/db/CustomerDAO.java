@@ -1,13 +1,142 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package db;
 
-/**
- *
- * @author meiadkhan
- */
+import model.Customer;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+
 public class CustomerDAO {
+
     
+    
+    public boolean registerCustomer(Customer customer) {
+        String sql = "INSERT INTO customers(name, phone, address, password) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Set values into SQL query
+            stmt.setString(1, customer.getName());
+            stmt.setString(2, customer.getPhone());
+            stmt.setString(3, customer.getAddress());
+            stmt.setString(4, customer.getPassword());
+
+            // Execute insert
+            int rows = stmt.executeUpdate();
+
+            return rows > 0; // return true if insert is successful
+
+        } catch (SQLException e) {
+            System.out.println("Registration failed: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * loginCustomer()
+     * ----------------
+     * Checks if phone + password match a record.
+     * Returns the Customer object if login is successful.
+     * Returns null if login fails.
+     */
+    public Customer loginCustomer(String phone, String password) {
+
+        String sql = "SELECT * FROM customers WHERE phone = ? AND password = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, phone);
+            stmt.setString(2, password);
+
+            ResultSet rs = stmt.executeQuery();
+
+            // If a matching row exists, create a Customer object
+            if (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customer_id"));
+                customer.setName(rs.getString("name"));
+                customer.setPhone(rs.getString("phone"));
+                customer.setAddress(rs.getString("address"));
+                customer.setPassword(rs.getString("password"));
+
+                return customer; // successful login
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Login failed: " + e.getMessage());
+        }
+
+        return null; // login failed
+    }
+
+    /**
+     * getCustomerByPhone()
+     * ---------------------
+     * Finds a customer using their phone number.
+     * Useful when checking duplicate phone numbers.
+     */
+    public Customer getCustomerByPhone(String phone) {
+
+        String sql = "SELECT * FROM customers WHERE phone = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, phone);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customer_id"));
+                customer.setName(rs.getString("name"));
+                customer.setPhone(rs.getString("phone"));
+                customer.setAddress(rs.getString("address"));
+                customer.setPassword(rs.getString("password"));
+
+                return customer;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error fetching customer: " + e.getMessage());
+        }
+
+        return null;
+    }
+    /**
+ * getAllCustomers()
+ * -----------------
+ * Returns list of all customers for admin view.
+ */
+public ArrayList<model.Customer> getAllCustomers() {
+    ArrayList<model.Customer> list = new ArrayList<>();
+    String sql = "SELECT * FROM customers ORDER BY customer_id DESC";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            model.Customer c = new model.Customer();
+            c.setCustomerId(rs.getInt("customer_id"));
+            c.setName(rs.getString("name"));
+            c.setPhone(rs.getString("phone"));
+            c.setAddress(rs.getString("address"));
+            c.setPassword(rs.getString("password"));
+            list.add(c);
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Error fetching customers: " + e.getMessage());
+    }
+
+    return list;
+}
+
+
+
 }
